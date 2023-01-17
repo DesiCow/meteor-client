@@ -31,6 +31,14 @@ public class HandView extends Module {
         .build()
     );
 
+    private final Setting<Boolean> hideArm = sgArm.add(new BoolSetting.Builder()
+        .name("hide-arms")
+        .description("Disables rendering of the arms.")
+        .defaultValue(false).
+        build()
+    );
+
+
     // Scale
     private final Setting<Double> scaleXMain = sgMainHand.add(new DoubleSetting.Builder().name("mainhand-scale-x").description("The X scale of your main hand.").defaultValue(1).sliderMax(5).build());
     private final Setting<Double> scaleYMain = sgMainHand.add(new DoubleSetting.Builder().name("mainhand-scale-y").description("The Y scale of your main hand.").defaultValue(1).sliderMax(5).build());
@@ -38,9 +46,9 @@ public class HandView extends Module {
     private final Setting<Double> scaleXOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-scale-x").description("The X scale of your offhand.").defaultValue(1).sliderMax(5).build());
     private final Setting<Double> scaleYOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-scale-y").description("The Y scale of your offhand.").defaultValue(1).sliderMax(5).build());
     private final Setting<Double> scaleZOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-scale-z").description("The Z scale of your offhand.").defaultValue(1).sliderMax(5).build());
-    private final Setting<Double> scaleXArm = sgArm.add(new DoubleSetting.Builder().name("arm-scale-x").description("The X scale of your arm.").defaultValue(1).sliderMax(5).build());
-    private final Setting<Double> scaleYArm = sgArm.add(new DoubleSetting.Builder().name("arm-scale-y").description("The Y scale of your arm.").defaultValue(1).sliderMax(5).build());
-    private final Setting<Double> scaleZArm = sgArm.add(new DoubleSetting.Builder().name("arm-scale-z").description("The Z scale of your arm.").defaultValue(1).sliderMax(5).build());
+    private final Setting<Double> scaleXArm = sgArm.add(new DoubleSetting.Builder().name("arm-scale-x").description("The X scale of your arm.").defaultValue(1).sliderMax(5).visible(() -> !hideArm.get()).build());
+    private final Setting<Double> scaleYArm = sgArm.add(new DoubleSetting.Builder().name("arm-scale-y").description("The Y scale of your arm.").defaultValue(1).sliderMax(5).visible(() -> !hideArm.get()).build());
+    private final Setting<Double> scaleZArm = sgArm.add(new DoubleSetting.Builder().name("arm-scale-z").description("The Z scale of your arm.").defaultValue(1).sliderMax(5).visible(() -> !hideArm.get()).build());
 
     // Position
     private final Setting<Double> posXMain = sgMainHand.add(new DoubleSetting.Builder().name("mainhand-position-x").description("The X position offset of your main hand.").defaultValue(0).sliderRange(-3, 3).build());
@@ -49,9 +57,9 @@ public class HandView extends Module {
     private final Setting<Double> posXOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-position-x").description("The X position offset of your offhand.").defaultValue(0).sliderRange(-3, 3).build());
     private final Setting<Double> posYOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-position-y").description("The Y position offset of your offhand.").defaultValue(0).sliderRange(-3, 3).build());
     private final Setting<Double> posZOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-position-z").description("The Z position offset of your offhand.").defaultValue(0).sliderRange(-3, 3).build());
-    private final Setting<Double> posXArm = sgArm.add(new DoubleSetting.Builder().name("arm-position-x").description("The X position offset of your arm.").defaultValue(0).sliderRange(-3, 3).build());
-    private final Setting<Double> posYArm = sgArm.add(new DoubleSetting.Builder().name("arm-position-y").description("The Y position offset of your arm.").defaultValue(0).sliderRange(-3, 3).build());
-    private final Setting<Double> posZArm = sgArm.add(new DoubleSetting.Builder().name("arm-position-z").description("The Z position offset of your arm.").defaultValue(0).sliderRange(-3, 3).build());
+    private final Setting<Double> posXArm = sgArm.add(new DoubleSetting.Builder().name("arm-position-x").description("The X position offset of your arm.").defaultValue(0).sliderRange(-3, 3).visible(() -> !hideArm.get()).build());
+    private final Setting<Double> posYArm = sgArm.add(new DoubleSetting.Builder().name("arm-position-y").description("The Y position offset of your arm.").defaultValue(0).sliderRange(-3, 3).visible(() -> !hideArm.get()).build());
+    private final Setting<Double> posZArm = sgArm.add(new DoubleSetting.Builder().name("arm-position-z").description("The Z position offset of your arm.").defaultValue(0).sliderRange(-3, 3).visible(() -> !hideArm.get()).build());
 
     // Rotation
     private final Setting<Double> rotationXMain = sgMainHand.add(new DoubleSetting.Builder().name("mainhand-rotation-x").description("The X orientation of your main hand.").defaultValue(0).sliderRange(-180, 180).build());
@@ -60,9 +68,9 @@ public class HandView extends Module {
     private final Setting<Double> rotationXOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-rotation-x").description("The X orientation of your offhand.").defaultValue(0).sliderRange(-180, 180).build());
     private final Setting<Double> rotationYOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-rotation-y").description("The Y orientation of your offhand.").defaultValue(0).sliderRange(-180, 180).build());
     private final Setting<Double> rotationZOff = sgOffHand.add(new DoubleSetting.Builder().name("offhand-rotation-z").description("The Z orientation of your offhand.").defaultValue(0).sliderRange(-180, 180).build());
-    private final Setting<Double> rotationXArm = sgArm.add(new DoubleSetting.Builder().name("arm-rotation-x").description("The X orientation of your arm.").defaultValue(0).sliderRange(-180, 180).build());
-    private final Setting<Double> rotationYArm = sgArm.add(new DoubleSetting.Builder().name("arm-rotation-y").description("The Y orientation of your arm.").defaultValue(0).sliderRange(-180, 180).build());
-    private final Setting<Double> rotationZArm = sgArm.add(new DoubleSetting.Builder().name("arm-rotation-z").description("The Z orientation of your arm.").defaultValue(0).sliderRange(-180, 180).build());
+    private final Setting<Double> rotationXArm = sgArm.add(new DoubleSetting.Builder().name("arm-rotation-x").description("The X orientation of your arm.").defaultValue(0).sliderRange(-180, 180).visible(() -> !hideArm.get()).build());
+    private final Setting<Double> rotationYArm = sgArm.add(new DoubleSetting.Builder().name("arm-rotation-y").description("The Y orientation of your arm.").defaultValue(0).sliderRange(-180, 180).visible(() -> !hideArm.get()).build());
+    private final Setting<Double> rotationZArm = sgArm.add(new DoubleSetting.Builder().name("arm-rotation-z").description("The Z orientation of your arm.").defaultValue(0).sliderRange(-180, 180).visible(() -> !hideArm.get()).build());
 
     // Swing
     public final Setting<SwingMode> swingMode = sgSwing.add(new EnumSetting.Builder<SwingMode>().name("mode").description("Modifies your client & server hand swinging.").defaultValue(SwingMode.None).build());
@@ -110,6 +118,10 @@ public class HandView extends Module {
     private void applyServerRotations(MatrixStack matrix) {
         matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.player.getPitch() - Rotations.serverPitch));
         matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(mc.player.getYaw() - Rotations.serverYaw));
+    }
+
+    public boolean hideArms() {
+        return isActive() && hideArm.get();
     }
 
     public enum SwingMode {
