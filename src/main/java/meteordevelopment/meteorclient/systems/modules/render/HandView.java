@@ -32,8 +32,8 @@ public class HandView extends Module {
     );
 
     private final Setting<Boolean> hideArm = sgArm.add(new BoolSetting.Builder()
-        .name("hide-arms")
-        .description("Disables rendering of the arms.")
+        .name("hide-arm")
+        .description("Disables rendering of the arm.")
         .defaultValue(false).
         build()
     );
@@ -120,7 +120,7 @@ public class HandView extends Module {
         matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(mc.player.getYaw() - Rotations.serverYaw));
     }
 
-    public boolean hideArms() {
+    public boolean hideArm() {
         return isActive() && hideArm.get();
     }
 
