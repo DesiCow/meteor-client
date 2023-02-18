@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.mixin.*;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
+import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
@@ -87,17 +88,20 @@ public class Utils {
         }
     }
 
-    public static double getPlayerSpeed() {
-        if (mc.player == null) return 0;
+    public static Vec3d getPlayerVelocity() {
+        Vec3d velocity = new Vec3d(0, 0, 0);
+        if (mc.player == null) return velocity;
 
-        double tX = Math.abs(mc.player.getX() - mc.player.prevX);
-        double tZ = Math.abs(mc.player.getZ() - mc.player.prevZ);
-        double length = Math.sqrt(tX * tX + tZ * tZ);
+        double dX = Math.abs(mc.player.getX() - mc.player.prevX);
+        double dY = Math.abs(mc.player.getY() - mc.player.prevY);
+        double dZ = Math.abs(mc.player.getZ() - mc.player.prevZ);
+
+        ((IVec3d) velocity).set(dX, dY, dZ);
 
         Timer timer = Modules.get().get(Timer.class);
-        if (timer.isActive()) length *= Modules.get().get(Timer.class).getMultiplier();
+        if (timer.isActive()) velocity.multiply(Modules.get().get(Timer.class).getMultiplier());
 
-        return length * 20;
+        return velocity.multiply(20);
     }
 
     public static String getWorldTime() {

@@ -123,7 +123,13 @@ public class MeteorStarscript {
             .set("_toString", () -> Value.string(mc.getSession().getUsername()))
             .set("health", () -> Value.number(mc.player != null ? mc.player.getHealth() : 0))
             .set("hunger", () -> Value.number(mc.player != null ? mc.player.getHungerManager().getFoodLevel() : 0))
-            .set("speed", () -> Value.number(Utils.getPlayerSpeed()))
+            .set("speed", () -> Value.number(Utils.getPlayerVelocity().horizontalLength()))
+            .set("velocity", new ValueMap()
+                .set("_toString", () -> Value.number(Utils.getPlayerVelocity().length()))
+                .set("x", () -> Value.number(Utils.getPlayerVelocity().getX()))
+                .set("y", () -> Value.number(Utils.getPlayerVelocity().getY()))
+                .set("z", () -> Value.number(Utils.getPlayerVelocity().getZ()))
+            )
 
             .set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getBreakingProgress() : 0))
             .set("biome", MeteorStarscript::biome)
@@ -544,6 +550,16 @@ public class MeteorStarscript {
     }
 
     // Wrapping
+
+    // Todo : implement toString, count, getAny, next, contains
+    public static Value wrap(String[] objects) {
+        return Value.map(new ValueMap()
+            .set("_toString", Value.string(Arrays.toString(objects)))
+            .set("length", Value.number(objects.length))
+            .set("getAny", Value.string(Arrays.stream(objects).findAny().get()))
+            .set("contains", (ss, argcount) -> Value.bool(Arrays.asList(objects).contains(ss.popString("Failed to parse your provided argument."))))
+        );
+    }
 
     public static Value wrap(ItemStack itemStack) {
         String name = itemStack.isEmpty() ? "" : Names.get(itemStack.getItem());
