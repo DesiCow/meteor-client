@@ -14,6 +14,8 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.ParticleTypes;
 
@@ -311,10 +313,10 @@ public class NoRender extends Module {
         .build()
     );
 
-    private final Setting<Boolean> noArmor = sgEntity.add(new BoolSetting.Builder()
-        .name("armor")
-        .description("Disables rendering of armor on entities.")
-        .defaultValue(false)
+    private final Setting<List<Item>> noArmors = sgEntity.add(new ItemListSetting.Builder()
+        .name("armor-items")
+        .description("Disables rendering of the selected Armor items on players.")
+        .filter(item -> item instanceof ArmorItem)
         .build()
     );
 
@@ -534,8 +536,8 @@ public class NoRender extends Module {
         return isActive() && dropSpawnPacket.get();
     }
 
-    public boolean noArmor() {
-        return isActive() && noArmor.get();
+    public boolean noArmor(Item item) {
+        return isActive() && noArmors.get().contains(item);
     }
 
     public boolean noInvisibility() {

@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ArmorFeatureRenderer.class)
 public class ArmorFeatureRendererMixin<T extends LivingEntity, M extends BipedEntityModel<T>, A extends BipedEntityModel<T>> {
     @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
-    private void onRenderArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers, T livingEntity, EquipmentSlot equipmentSlot, int i, A bipedEntityModel, CallbackInfo info) {
-        if (livingEntity instanceof PlayerEntity && Modules.get().get(NoRender.class).noArmor()) info.cancel();
+    private void onRenderArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers, T livingEntity, EquipmentSlot armorSlot, int i, A bipedEntityModel, CallbackInfo info) {
+        if (livingEntity instanceof PlayerEntity && Modules.get().get(NoRender.class).noArmor(livingEntity.getEquippedStack(armorSlot).getItem())) info.cancel();
     }
 }
