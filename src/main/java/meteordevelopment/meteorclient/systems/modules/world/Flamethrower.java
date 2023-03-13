@@ -90,7 +90,7 @@ public class Flamethrower extends Module {
     private Hand hand;
 
     public Flamethrower() {
-        super(Categories.World, "flamethrower", "Ignites every alive piece of food.");
+        super(Categories.World, "flamethrower", "Automatically ignites mobs to produce cooked food");
     }
 
     @Override
